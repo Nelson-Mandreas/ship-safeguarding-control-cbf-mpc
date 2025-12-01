@@ -1,2 +1,2 @@
 # ship-safeguarding-control-cbf-mpc
-Safeguarding control of ship using Control Barrier Functions (CBF) and Model Predictive Control (MPC) as two distinct safety filters for a dynamic positioning (DP) control law. 
+This repository presents MATLAB code for simulating safeguarding control of a marine vessel. Control Barrier Functions (CBF) and Model Predictive Control (MPC) are implemented as distinct safety filters applied to a Dynamic Positioning (DP) nominal controller (PIDnonlinearMIMO). The repository enables comparison of the performance of CBF and MPC as safety filters under environmental disturbances, including wind and ocean currents.

@@ -332,7 +332,7 @@ for k = 1:total_k-1
 
     % Control logic based on the elapsed simulation time
     if ts(k) > 80 
-        eta_ref = [x_ref, y_ref, deg2rad(40)]'; % Change setpoint after 50 s
+        eta_ref = [x_ref, y_ref, deg2rad(40)]'; % Change setpoint after ... s
     end
     
     % 3 DOF model, 3 DOF tau
@@ -492,4 +492,5 @@ plot(ts(1:end), rad2deg(uis(:,5)), 'LineWidth', 1.5); hold on;
 plot(ts(1:end), rad2deg(uis(:,6)), 'LineWidth', 1.5);
 xlabel('Time [s]'); ylabel('Azimuth angle [deg]');
 legend('\alpha_1','\alpha_2','Location',legendLocation); title('Azimuth angles'); grid on;
+
 

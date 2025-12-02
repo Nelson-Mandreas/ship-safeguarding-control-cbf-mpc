@@ -1,3 +1,10 @@
+% Dependicies: 
+%   - MSS Toolbox
+%   - CasADi Toolbox (version 3.7.2)
+%   - Custom functions: 
+%      * params_casADi
+%      * navalvessel.m
+
 clear PIDnonlinearMIMO
 clearvars;
 close all; 
@@ -485,3 +492,4 @@ plot(ts(1:end), rad2deg(uis(:,5)), 'LineWidth', 1.5); hold on;
 plot(ts(1:end), rad2deg(uis(:,6)), 'LineWidth', 1.5);
 xlabel('Time [s]'); ylabel('Azimuth angle [deg]');
 legend('\alpha_1','\alpha_2','Location',legendLocation); title('Azimuth angles'); grid on;
+

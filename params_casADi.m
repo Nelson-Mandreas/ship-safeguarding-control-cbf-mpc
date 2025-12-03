@@ -1,6 +1,6 @@
 function params = params_casADi()
 % This script is adapted from parameters in navalvessel.m
-% Parameters are used to build the model for MPC solvers
+% Parameters are used to build the model for CBF/MPC solvers
 %
 % Original navalvessel.m (T. I. Fossen and T. Perez (2004)): https://github.com/cybergalactic/MSS
 %
@@ -93,5 +93,6 @@ params.Nbuar = -4980000 ;
 params.Nbuau = -8000 ;
 
 end
+
 
 

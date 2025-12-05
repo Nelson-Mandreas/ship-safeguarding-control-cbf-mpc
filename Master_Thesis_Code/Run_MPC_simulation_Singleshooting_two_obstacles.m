@@ -562,7 +562,7 @@ legend('n_3','n_4','Location',legendLocation)
 subplot(3,1,3), grid
 plot(ts(1:end), rad2deg(uis(:,5)), 'LineWidth', 1.5); hold on;
 plot(ts(1:end), rad2deg(uis(:,6)), 'LineWidth', 1.5);
-xlabel('Time [s]'); ylabel('Azimuth angle [deg]');
+xlabel('Time [s]');
 legend('\alpha_1','\alpha_2','Location',legendLocation); title('Azimuth angles'); grid on;
 
 % figure(4)
@@ -608,3 +608,4 @@ title('roll angle for evasive ship')
 subplot(616) 
 plot(ts, rad2deg(xs(:,6)), 'k', 'LineWidth', 2);grid on;
 title('yaw angle for evasive ship')
+

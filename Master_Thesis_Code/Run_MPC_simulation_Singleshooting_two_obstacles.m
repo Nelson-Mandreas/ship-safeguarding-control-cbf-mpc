@@ -36,6 +36,10 @@ sim_t = 50;  %                         (*SET FINAL SIMULATION TIME HERE*)
 
 N = 20;      % Prediction horizon                 (*SET N HERE*)
 
+%                                     (*SET Initial states for ship HERE*) 
+x0 = [0; 0; 0; 0; 0; deg2rad(0)];       % x = [u; v; p; r; phi; psi]'
+eta = [-15; -15; deg2rad(0)];            % north, east, psi (x, y, psi)
+
 % Set x-, y-position of obstacle 1 and 2
 obs_x1 = -10; %                         (*SET POSITIONS OF OBSTACLES HERE*)      
 obs_y1 = -10; 
@@ -284,10 +288,6 @@ eta_ref = [x_ref, y_ref, psi_ref]';  % Reference positions and heading
 wn =  0.1 * diag([1 1 3]);   % Natural frequencies for PID tuning
 zeta = 1.0 * diag([1 1 1]);  % Damping ratios for PID tuning
 T_f = 30;                    % Time constant for the setpoint low-pass filter (s)
-
-% Initial states for ship 
-x0 = [0; 0; 0; 0; 0; deg2rad(0)];       % x = [u; v; p; r; phi; psi]'
-eta = [-15; -15; deg2rad(0)];            % north, east, psi (x, y, psi)
  
 total_k = ceil(sim_t / T);     
 t = 0;
@@ -608,4 +608,5 @@ title('roll angle for evasive ship')
 subplot(616) 
 plot(ts, rad2deg(xs(:,6)), 'k', 'LineWidth', 2);grid on;
 title('yaw angle for evasive ship')
+
 

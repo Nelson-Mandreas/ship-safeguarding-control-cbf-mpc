@@ -371,7 +371,7 @@ for k = 1:total_k-1
     CBF_solvers_info(k).iter_count = stats.iter_count;
 
     tau_opt = full(sol1.x);  % surge, sway yaw
-    us(k, :) = tau_opt';
+    us(k, :) = tau_opt';      % Could add wind forces (tau_w) here
 
     bs1(k) = full(B1_1_func([x; eta(1); eta(2)]));    % B1 obs1 values stored  
     bs2(k) = full(B1_2_func([x; eta(1); eta(2)]));    % B1 obs2 values stored
@@ -557,4 +557,5 @@ plot(ts(1:end), rad2deg(uis(:,5)), 'LineWidth', 1.5); hold on;
 plot(ts(1:end), rad2deg(uis(:,6)), 'LineWidth', 1.5);
 xlabel('Time [s]'); 
 legend('\alpha_1','\alpha_2','Location',legendLocation); title('Azimuth angles'); grid on;
+
 

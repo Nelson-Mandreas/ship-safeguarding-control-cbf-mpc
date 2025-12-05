@@ -555,5 +555,6 @@ legend('n_3','n_4','Location',legendLocation); grid on;
 subplot(3,1,3)
 plot(ts(1:end), rad2deg(uis(:,5)), 'LineWidth', 1.5); hold on;
 plot(ts(1:end), rad2deg(uis(:,6)), 'LineWidth', 1.5);
-xlabel('Time [s]'); ylabel('Azimuth angle [deg]');
+xlabel('Time [s]'); 
 legend('\alpha_1','\alpha_2','Location',legendLocation); title('Azimuth angles'); grid on;
+

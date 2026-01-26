@@ -1,5 +1,5 @@
 # ship-safeguarding-control-cbf-mpc
-This repository presents Master Thesis MATLAB code for simulating safeguarding control of a marine vessel. Control Barrier Functions (CBF) and Model Predictive Control (MPC) are implemented as distinct safety filters to a Dynamic Positioning (DP) nominal controller. The repository enables comparison of the performance of CBF and MPC as safety filters under environmental disturbances, including wind and ocean currents. Master’s thesis conducted from August 2025 to January 2026.
+This repository presents Master Thesis MATLAB code for simulating safeguarding control of a marine vessel. Control Barrier Functions (CBF) and Model Predictive Control (MPC) are implemented as distinct safety filters to a Dynamic Positioning (DP) nominal controller. The repository enables comparison of the performance of CBF and MPC as safety filters under environmental disturbances, including ocean currents. Master’s thesis conducted from August 2025 to January 2026.
 
 Scripts in Master Thesis uses code from: 
   - T. I. Fossen and T. Perez (2004). Marine Systems Simulator (MSS).

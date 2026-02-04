@@ -126,8 +126,8 @@ e1_1 = x_p - xo_1;
 e2_1 = y_p - yo_1;
 e_1 = [e1_1, e2_1]';
 
-B1_1 = (e1_1)^2 + (e2_1)^2 - (d)^2;    % B1 for obstacle 1
-B1_1_dot = 2 * e_1' * x_dot_y_dot;
+B1_1 = -(e1_1)^2 - (e2_1)^2 + (d)^2;    % B1 for obstacle 1
+B1_1_dot = -2 * e_1' * x_dot_y_dot;
 
 cbf_1 = B1_1_dot + cbf_gamma0 * B1_1;   % B2 for obstacle 1
 
@@ -135,8 +135,8 @@ e1_2 = x_p - xo_2;
 e2_2 = y_p - yo_2;
 e_2 = [e1_2, e2_2]';
 
-B1_2 = (e1_2)^2 + (e2_2)^2 - (d)^2;  % B1 for obstacle 2
-B1_2_dot = 2*e_2'*x_dot_y_dot; 
+B1_2 = -(e1_2)^2 - (e2_2)^2 + (d)^2;  % B1 for obstacle 2
+B1_2_dot = -2*e_2'*x_dot_y_dot; 
 
 cbf_2 = B1_2_dot + cbf_gamma0_2 * B1_2;  % B2 for obstacle 2
 
@@ -169,16 +169,16 @@ tau_ref = SX.sym('tau_ref', 3);
 P = [x1; tau_ref];   
 
 %---------------Create CBF solver for subproblem 1-------------------------
-A = [-lg_cbf_1];
+A = [lg_cbf_1];
 
 b = [lf_cbf_1 + cbf_rate * cbf_1]; 
 
 H = eye(3); 
 obj = (tau - tau_ref)'*H*(tau - tau_ref);
 
-prob_struct1 = struct('x', tau, 'f', obj, 'g', A*tau - b, 'p', P);  % x is opt variable (x = tau)
+prob_struct1 = struct('x', tau, 'f', obj, 'g', A*tau + b, 'p', P);  % x is opt variable (x = tau)
 
-% Note: A*tau - b <= 0. lb = -inf, ub = 0
+% Note: A*tau + b <= 0. lb = -inf, ub = 0
 
 opts = struct();
 opts.printLevel = 'none';
@@ -186,11 +186,11 @@ opts.printLevel = 'none';
 solver1 = qpsol('solver', 'qpoases', prob_struct1, opts);   % QP solver first subproblem
 
 %---------------Create CBF solver for subproblem 2-------------------------
-A = [-lg_cbf_2];
+A = [lg_cbf_2];
 
 b = [lf_cbf_2 + cbf_rate2 * cbf_2];
 
-prob_struct2 = struct('x', tau, 'f', obj, 'g', A*tau - b, 'p', P);
+prob_struct2 = struct('x', tau, 'f', obj, 'g', A*tau + b, 'p', P);
 
 solver1_2 = qpsol('solver', 'qpoases', prob_struct2, opts);   % QP solver second subproblem
 
@@ -557,5 +557,6 @@ plot(ts(1:end), rad2deg(uis(:,5)), 'LineWidth', 1.5); hold on;
 plot(ts(1:end), rad2deg(uis(:,6)), 'LineWidth', 1.5);
 xlabel('Time [s]'); 
 legend('\alpha_1','\alpha_2','Location',legendLocation); title('Azimuth angles'); grid on;
+
 
 

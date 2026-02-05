@@ -330,7 +330,7 @@ controlalloc_solver_info = struct( ...
     'return_status', cell(total_k-1, 1), ...
     'iter_count', cell(total_k-1, 1));
 
-%% --------------THE SIMULATION LOOP START FROM HERE-------------------- %%
+%% --------------THE SIMULATION LOOP (MAIN) START FROM HERE-------------------- %%
 
 for k = 1:total_k-1
   
@@ -608,5 +608,6 @@ title('roll angle for evasive ship')
 subplot(616) 
 plot(ts, rad2deg(xs(:,6)), 'k', 'LineWidth', 2);grid on;
 title('yaw angle for evasive ship')
+
 
 

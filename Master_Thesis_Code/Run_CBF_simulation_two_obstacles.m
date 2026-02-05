@@ -336,7 +336,7 @@ controlalloc_solver_info = struct( ...
     'return_status', cell(total_k-1, 1), ...
     'iter_count', cell(total_k-1, 1));
 
-%% --------------- Simulation loop starts here --------------------------%%
+%% --------------- Simulation loop (Main) starts here --------------------------%%
  
 for k = 1:total_k-1
 
@@ -557,6 +557,7 @@ plot(ts(1:end), rad2deg(uis(:,5)), 'LineWidth', 1.5); hold on;
 plot(ts(1:end), rad2deg(uis(:,6)), 'LineWidth', 1.5);
 xlabel('Time [s]'); 
 legend('\alpha_1','\alpha_2','Location',legendLocation); title('Azimuth angles'); grid on;
+
 
 
 

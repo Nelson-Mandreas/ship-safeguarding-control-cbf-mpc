@@ -301,7 +301,7 @@ t = 0;
 x = [0; 0; 0; 0; 0; deg2rad(0)];       % x = [u; v; p; r; phi; psi]'
 eta = [-15; -15; deg2rad(0)];            % north, east, psi (x, y, psi)
 
-% Constant azimuth angles minimizing the condition number of T_thr                             
+% Initial azimuth angles                              
 alpha0 = deg2rad([-28; 28]); 
 
 alpha_old = alpha0;    % Initial values for dynamic optimization
@@ -557,6 +557,7 @@ plot(ts(1:end), rad2deg(uis(:,5)), 'LineWidth', 1.5); hold on;
 plot(ts(1:end), rad2deg(uis(:,6)), 'LineWidth', 1.5);
 xlabel('Time [s]'); 
 legend('\alpha_1','\alpha_2','Location',legendLocation); title('Azimuth angles'); grid on;
+
 
 
 

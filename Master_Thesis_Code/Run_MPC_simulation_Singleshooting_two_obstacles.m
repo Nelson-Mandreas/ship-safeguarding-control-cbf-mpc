@@ -32,9 +32,9 @@ params = params_casADi();   % get parameters from params_casADi
 % disturbances
 
 T = 0.05;      % Sampling time
-sim_t = 50;  %                         (*SET FINAL SIMULATION TIME HERE*)
+sim_t = 70;  %                         (*SET FINAL SIMULATION TIME HERE*)
 
-N = 20;      % Prediction horizon                 (*SET N HERE*)
+N = 30;      % Prediction horizon                 (*SET N HERE*)
 
 %                                     (*SET Initial states for ship HERE*) 
 x0 = [0; 0; 0; 0; 0; deg2rad(0)];       % x = [u; v; p; r; phi; psi]'
@@ -53,7 +53,7 @@ obs_diam = 3; %                            (*SET OBSTACLE RADIUS HERE*)
 % When time > time_interval2 use only DP control law (PIDnonlinearMIMO)
 
 time_interval1 = 20; %                  (*SET TIMES FOR SWITCH LOGIC HERE*)
-time_interval2 = 50;
+time_interval2 = 70;
 
 Vc = 0;          % Ocean current speed         (*SET OCEAN CURRENT HERE*)
 betaVc = deg2rad(-45);      % Ocean current direction 
@@ -317,6 +317,9 @@ args1.x0 = [deg2rad(-28) deg2rad(28)  0 0 0 0  0 0 0];
 
 tau_pid_pred = zeros(3,N);
 
+Time1 = zeros(1,total_k-1);   % Store elapsed time
+Time2 = zeros(1,total_k-1);   % Store elapsed time
+
 h_waitbar = waitbar(0, 'Processing...');    % Display a wait bar 
 
 % Store status from the two MPC solvers
@@ -370,8 +373,10 @@ for k = 1:total_k-1
         args.p = [x0; eta(1); eta(2); reshape(tau_pid_pred, 3*N,1)];
         args.x0 = reshape(u0',3*N,1);
 
+        tic % Measure elapsed time for solver for MPC obs 1    
         sol = solver('x0', args.x0, ...
             'lbg', args.lbg, 'ubg', args.ubg,'p',args.p);
+        Time1(k) = toc;
 
         stats = solver.stats();
         MPC_solvers_info(k).success = stats.success;
@@ -405,9 +410,11 @@ for k = 1:total_k-1
 
         args.p = [x0; eta(1); eta(2); reshape(tau_pid_pred, 3*N,1)];
         args.x0 = reshape(u0',3*N,1);
-
+        
+        tic % Measure elapsed time for solver for MPC obs 2
         sol = solver1('x0', args.x0, ...
             'lbg', args.lbg, 'ubg', args.ubg,'p',args.p);
+        Time2(k) = toc;
 
         stats1 = solver1.stats();
         MPC_solvers_info(k).success = stats1.success;
@@ -495,6 +502,8 @@ fprintf('\n');
 %% -------Open MPC solvers and control alloc solver information----------%%
 openvar('MPC_solvers_info');
 openvar('controlalloc_solver_info');
+openvar('Time1');
+openvar('Time2');
 
 %% -------------------------Plotting------------------------------------ %%        
 close(h_waitbar);  % Close the progress indicator
@@ -608,6 +617,7 @@ title('roll angle for evasive ship')
 subplot(616) 
 plot(ts, rad2deg(xs(:,6)), 'k', 'LineWidth', 2);grid on;
 title('yaw angle for evasive ship')
+
 
 
 

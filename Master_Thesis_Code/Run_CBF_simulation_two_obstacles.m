@@ -25,7 +25,7 @@ import casadi.*
 params = params_casADi();   % get parameters from params_casADi
 
 %% ------------------------------------------------------------------------
-sim_t = 30;               %        (*SET FINAL SIMULATION TIME HERE*)
+sim_t = 60;               %        (*SET FINAL SIMULATION TIME HERE*)
 dt = 0.05;                 % Sampling time
 
 % Obstacle 1
@@ -323,6 +323,8 @@ xs(1, :)   = x';
 etas(1, :) = eta;
 ts(1)      = t;
 
+T = zeros(1,total_k-1);
+
 h_waitbar = waitbar(0, 'Processing...');    % Display a wait bar 
 
 % Store status from the two CBF solvers
@@ -356,7 +358,7 @@ for k = 1:total_k-1
     nu = [x(1); x(2); x(4)];   % [u v r]
     tau_pid = PIDnonlinearMIMO(eta, nu, eta_ref, M([1 2 4],[1 2 4]), wn, zeta, T_f, dt); % ref controller
     
-    
+    tic;    % Measure elapsed time of CBF-QP solver
     % CBF-QP solver 2 subproblems. P = [x; tau_ref], x = [u v p r phi psi x_p y_p] 
     if ts(k) < time_interval1
         sol1 = solver1('p', [x; eta(1); eta(2); tau_pid], 'lbg', -inf(1,1), 'ubg', zeros(1,1));
@@ -365,6 +367,7 @@ for k = 1:total_k-1
         sol1 = solver1_2('p', [x; eta(1); eta(2); tau_pid], 'lbg', -inf(1,1), 'ubg', zeros(1,1));
         stats = solver1_2.stats();
     end
+    T(k) = toc;
 
     CBF_solvers_info(k).success = stats.success;
     CBF_solvers_info(k).return_status = stats.return_status;
@@ -420,7 +423,7 @@ dist_obs1 = sqrt((etas(:,1) - xo_1).^2 + (etas(:,2) - yo_1).^2);
 dist_obs2 = sqrt((etas(:,1) - xo_2).^2 + (etas(:,2) - yo_2).^2);
 
 min_dist = d;    % constraint boundary
-tol = 1e-8;             % tolerance
+tol = 0;             % tolerance
 
 viol1 = dist_obs1 < min_dist - tol;  % - tol if we tolerate some error
 viol2 = dist_obs2 < min_dist - tol;
@@ -449,6 +452,7 @@ fprintf('\n');
 %% -------Open CBF solvers and control alloc solver information----------%%
 openvar('CBF_solvers_info');
 openvar('controlalloc_solver_info');
+openvar('T');
 
 %% -------------------------Plotting------------------------------------ %%        
 close(h_waitbar);  % Close the progress indicator
@@ -557,6 +561,7 @@ plot(ts(1:end), rad2deg(uis(:,5)), 'LineWidth', 1.5); hold on;
 plot(ts(1:end), rad2deg(uis(:,6)), 'LineWidth', 1.5);
 xlabel('Time [s]'); 
 legend('\alpha_1','\alpha_2','Location',legendLocation); title('Azimuth angles'); grid on;
+
 
 
 
